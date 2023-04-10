@@ -89,9 +89,9 @@ export async function getFolderContent(locale: string, destFileName?: string) {
   const storage = new Storage();
   const bucketName = "quizapp-ecf8a.appspot.com";
   // Downloads the file
-  console.log(
-    `gs://${bucketName}/${destFileName} downloaded to ${destFileName}.`
-  );
+  // console.log(
+  //   `gs://${bucketName}/${destFileName} downloaded to ${destFileName}.`
+  // );
   try {
     const bucket = storage.bucket(bucketName);
 
@@ -127,7 +127,7 @@ export async function getFolderContent(locale: string, destFileName?: string) {
     }
 
     // await sleep(100);
-    console.log("files", fileNames);
+    // console.log("files", fileNames);
 
     return fileNames;
   } catch (error) {

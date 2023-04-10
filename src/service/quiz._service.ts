@@ -68,10 +68,14 @@ export async function getLevelQuestions(input: {
       { $match: { level: level, category: input.category, tag: "Logic" } },
       { $sample: { size: logicSize } },
     ]);
-    mathResult.concat(logicResult).sort(() => Math.random() - 0.5);
-    console.log("mathResult ", mathResult);
-    for await (const element of mathResult) {
-      console.log(element.folderPath);
+    let result = [...logicResult, ...mathResult].sort(
+      () => Math.random() - 0.5
+    );
+    console.log("mathSize ", mathSize);
+    console.log("logicSize ", logicSize);
+    console.log("result ", result.length);
+    for await (const element of result) {
+      // console.log(element.folderPath);
       let imgs = await getFolderContent("en", element.folderPath);
       if (imgs) {
         let question = imgs.filter((e) =>
@@ -82,10 +86,10 @@ export async function getLevelQuestions(input: {
         element.options = imgs.filter(
           (e) => !e.name?.toLowerCase()?.includes("quiz")
         );
-        console.log(element.options);
+        // console.log(element.options);
       }
     }
-    return mathResult;
+    return result;
   } catch (error) {
     throw Error(notFound("en", ""));
   }
