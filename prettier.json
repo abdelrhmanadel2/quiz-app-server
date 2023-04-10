@@ -1,0 +1,8 @@
+{
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true,
+    "singleQuote": true,
+    "semi": true,
+    "printWidth": 80,
+    "braketSpacing": true
+}
