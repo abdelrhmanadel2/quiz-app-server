@@ -104,7 +104,6 @@ export async function getFolderContent(locale: string, destFileName?: string) {
     const files = await bucket.getFiles({
       prefix: `${destFileName}/`,
       includeTrailingDelimiter: false,
-      maxResults: 100,
       delimiter: "/",
     });
     // console.log("files", files);

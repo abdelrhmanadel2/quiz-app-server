@@ -12,7 +12,7 @@ export interface IQuizResultDocument extends IQuizResult, Document {}
 export const ResultSchema: Schema = new Schema({
   accountId: {
     type: mongoose.Types.ObjectId,
-    ref: "users",
+    ref: "kids",
     required: true,
   },
   iq: {

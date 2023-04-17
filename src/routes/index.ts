@@ -7,6 +7,7 @@ import * as resultsController from "../controllers/result.controller";
 const routes = Router();
 
 routes.get("/getFolderContent", archiveController.getFolderContenHandler);
+routes.get("/setQuestionsUrls", quizController.setQuestionsUrlHandler);
 routes.post(
   "/createAllQuestionHandler",
   quizController.createAllQuestionHandler
@@ -15,10 +16,16 @@ routes.post(
 routes.get("/uploadFolder", archiveController.uploadFolderToCloudHandler);
 routes.post("/register", authController.userRegisterInfoHandler);
 routes.post("/authenticate", authController.logInHandler);
-routes.post("/getLevelQuestions", quizController.getLevelQuestionsHandler);
+routes.post("/addKid", authController.parentAddKidHandler);
+routes.get("/getKid", authController.getKidHandler);
 routes.get("/getUser", authController.getUserHandler);
+routes.get("/getKidsList", authController.getParentKidsHandler);
+routes.post("/getLevelQuestions", quizController.getLevelQuestionsHandler);
 routes.get("/getUserQuizResults", resultsController.getAllQuizResultsHandler);
 routes.get("/getQuizResult", resultsController.getQuizResultHandler);
 routes.post("/addQuizResult", resultsController.createQuizResultHandler);
+routes.post("/addCurrentQuiz", quizController.addCurrentQuizHandler);
+routes.get("/getCurrentQuiz", quizController.getCurrentQuizHandler);
+routes.get("/deleteCurrentQuiz", quizController.deleteCurrentQuizHandler);
 
 export default routes;

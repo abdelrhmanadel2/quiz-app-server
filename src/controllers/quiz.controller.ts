@@ -1,3 +1,4 @@
+import { ICurrentQuiz } from "./../models/kid_current_quiz";
 import { connectToCluster } from "../database/connect_to.db";
 import {
   successStatus,
@@ -9,10 +10,14 @@ import {
 import { Response, Request, NextFunction } from "express";
 import config from "../config/config";
 import {
+  addCurrentQuiz,
   createManyQuestion,
   createQuestion,
+  deleteCurrentQuiz,
   getAllQuestions,
+  getCurrentQuiz,
   getLevelQuestions,
+  setQuestionsUrl,
 } from "../service/quiz._service";
 import { IQuestion } from "../models/questions.model";
 import { getAllDirectories } from "../utils/helpers/functions.helper";
@@ -24,10 +29,31 @@ export const createQuestionHandler = async (
 ) => {
   try {
     // add validation here
-    connectToCluster(config.dataBaseUrl);
+    await connectToCluster(config.dataBaseUrl);
     // // make req
     const input: any = req.body;
     const result = await createQuestion(input);
+    console.log("result:", result);
+    res.json({
+      status: successStatus("en"),
+      message: successStatus("en"),
+      data: result,
+    });
+  } catch (err) {
+    // mongoose.connection.close();
+    res.send(err);
+  }
+};
+export const setQuestionsUrlHandler = async (
+  req: Request<{}, {}, {}>,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    // add validation here
+    await connectToCluster(config.dataBaseUrl);
+    // // make req
+    const result = await setQuestionsUrl();
     console.log("result:", result);
     res.json({
       status: successStatus("en"),
@@ -48,7 +74,7 @@ export const createAllQuestionHandler = async (
   try {
     // add validation here
     let result;
-    connectToCluster(config.dataBaseUrl);
+    await connectToCluster(config.dataBaseUrl);
     let questionList: Array<IQuestion> = [];
     getAllDirectories(
       "temp/Quistions",
@@ -59,7 +85,7 @@ export const createAllQuestionHandler = async (
           for await (const filePath of files) {
             if (!filePath.includes(".") && filePath.includes("Q_")) {
               let quesion: IQuestion = {
-                category: filePath.includes("kids") ? "kids" : "adult",
+                category: filePath.includes("kids") ? "baby" : "young",
                 level: filePath.includes("level_1")
                   ? 1
                   : filePath.includes("level_2")
@@ -100,7 +126,7 @@ export const getAllQuestionsHandler = async (
 ) => {
   try {
     // add validation here
-    connectToCluster(config.dataBaseUrl);
+    await connectToCluster(config.dataBaseUrl);
     // // make req
     const results = await getAllQuestions();
     res.json({
@@ -124,13 +150,81 @@ export const getLevelQuestionsHandler = async (
 ) => {
   try {
     // add validation here
-    connectToCluster(config.dataBaseUrl);
+    await connectToCluster(config.dataBaseUrl);
     // // make req
     const results = await getLevelQuestions(req.body);
     res.json({
       status: successStatus("en"),
       message: successStatus("en"),
       data: results,
+    });
+  } catch (err) {
+    // mongoose.connection.close();
+    res.send(err);
+  }
+};
+
+export const addCurrentQuizHandler = async (
+  req: Request<{}, {}, ICurrentQuiz>,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    // add validation here
+    await connectToCluster(config.dataBaseUrl);
+    // // make req
+    const input: any = req.body;
+    console.log("input", input);
+    const result = await addCurrentQuiz(input);
+    console.log("result:", result);
+    res.json({
+      status: successStatus("en"),
+      message: successStatus("en"),
+      data: result,
+    });
+  } catch (err) {
+    // mongoose.connection.close();
+    res.send(err);
+  }
+};
+export const getCurrentQuizHandler = async (
+  req: Request<{}, {}, {}, { id: string }>,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    // add validation here
+    await connectToCluster(config.dataBaseUrl);
+    // // make req
+    const input: any = req.query.id;
+    const result = await getCurrentQuiz(input);
+    console.log("result:", result);
+    res.json({
+      status: successStatus("en"),
+      message: successStatus("en"),
+      data: result,
+    });
+  } catch (err) {
+    // mongoose.connection.close();
+    res.send(err);
+  }
+};
+export const deleteCurrentQuizHandler = async (
+  req: Request<{}, {}, {}, { id: string }>,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    // add validation here
+    await connectToCluster(config.dataBaseUrl);
+    // // make req
+    const input: any = req.query.id;
+    const result = await deleteCurrentQuiz(input);
+    console.log("result:", result);
+    res.json({
+      status: successStatus("en"),
+      message: successStatus("en"),
+      data: result,
     });
   } catch (err) {
     // mongoose.connection.close();

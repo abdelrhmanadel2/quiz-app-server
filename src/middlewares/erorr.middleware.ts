@@ -14,10 +14,6 @@ function errorMiddleware(
     // mongoose validation error
     return res.status(400).json({ status: 400, message: err.message });
   }
-  if (err.name === "UnauthorizedError") {
-    // jwt authentication error
-    return res.status(401).json({ status: 401, message: "Invalid Token" });
-  }
   const status = err.status || 500;
   const message = err.message || "Whoops!! something went wrong";
   // default to 500 server error

@@ -1,25 +1,21 @@
 import mongoose, { Document, Schema } from "mongoose";
 export interface IUser {
-  age: number;
-  category: string;
+  type: string;
   name: string;
-  userName: string;
+  email: string;
   password?: string;
 }
 export interface IUserDocument extends IUser, Document {}
 export const UserSchema: Schema = new Schema({
-  name: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  userName: { type: String },
-  category: {
+  name: { type: String, trim: true },
+  password: { type: String, required: true, trim: true },
+  email: { type: String, required: true, unique: true, trim: true },
+  // did or parent
+  type: {
     type: String,
-  },
-  age: {
-    type: Number,
-    // required: true,
   },
 });
 
-UserSchema.index({ userName: 1 }, { unique: true });
+UserSchema.index({ email: 1 }, { unique: true });
 
 export default mongoose.model<IUserDocument>("users", UserSchema);

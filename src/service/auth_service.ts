@@ -1,3 +1,4 @@
+import bcrypt from "bcryptjs";
 import UserModel, { IUserDocument, IUser } from "../models/user.model";
 import {
   successStatus,
@@ -20,20 +21,23 @@ export async function userRegister(
   }
 }
 export async function authenticateUser(
-  input: { userName: string; password: string },
+  input: { email: string; password: string },
   locale: string
 ) {
   try {
     console.log("input", input);
     let user = await UserModel.findOne({
-      userName: input.userName,
-      password: input.password,
+      email: input.email,
+      // password: input.password
     });
     if (!user) {
-      throw Error("No Account With This Username Try To Register Frist");
+      throw Error("No Account With This email Try To Register Frist");
     }
-
-    return user;
+    let isValidPassword = bcrypt.compareSync(input.password, user.password!);
+    if (isValidPassword) {
+      return user;
+    }
+    throw Error("Wrong Password");
   } catch (error) {
     throw error;
   }

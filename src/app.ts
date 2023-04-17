@@ -4,10 +4,11 @@ import routes from "./routes";
 // import fileUpload from "express-fileupload";
 const app: Application = express();
 // error middlewear
+app.use(express.json());
 
 // json parser
-app.use(express.json({ limit: "50mb" }));
-app.use(express.urlencoded({ limit: "50mb", extended: true }));
+
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/", routes);
 // unknown route
@@ -16,6 +17,6 @@ app.use((_req: Request, res: Response) => {
 });
 app.use(errorMiddelware);
 
-app.listen(4800, () => {
-  console.log(`Server listen to port ${4800}`);
+app.listen(3801, () => {
+  console.log(`Server listen to port ${3801}`);
 });

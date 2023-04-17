@@ -8,6 +8,10 @@ import QuestionModel, {
   IQuestion,
   IQuestionDocument,
 } from "../models/questions.model";
+import CurrentQuizModel, {
+  ICurrentQuiz,
+  ICurrentQuizDocument,
+} from "../models/kid_current_quiz";
 import { getFolderContent } from "../utils/helpers/functions.helper";
 import { errorThrower } from "../utils/helpers/error.handellar.helper";
 
@@ -89,6 +93,77 @@ export async function getLevelQuestions(input: {
         // console.log(element.options);
       }
     }
+    return result;
+  } catch (error) {
+    throw Error(notFound("en", ""));
+  }
+}
+export async function setQuestionsUrl() {
+  try {
+    let result = await QuestionModel.find({});
+
+    for await (const element of result) {
+      // console.log(element.folderPath);
+      let imgs = await getFolderContent("en", element.folderPath);
+      if (imgs) {
+        let question = imgs.filter((e) =>
+          e.name?.toLowerCase()?.includes("quiz")
+        );
+        if (question) element.questionImg = question[0].url;
+
+        element.options = imgs.filter(
+          (e) => !e.name?.toLowerCase()?.includes("quiz")
+        );
+        // console.log(element.options);
+      }
+      // await QuestionModel.updateOne(
+      //   { _id: element._id },
+      //   {
+      //     ...element,
+      //   }
+      // );
+    }
+    return result;
+  } catch (error) {
+    throw Error(notFound("en", ""));
+  }
+}
+export async function addCurrentQuiz(
+  input: DocumentDefinition<ICurrentQuizDocument>
+) {
+  try {
+    let result = await CurrentQuizModel.updateOne(
+      { kidId: input.kidId },
+      input,
+      {
+        upsert: true,
+        setDefaultsOnInsert: true,
+        new: true,
+      }
+    );
+
+    return result;
+  } catch (error) {
+    throw Error(notFound("en", ""));
+  }
+}
+export async function getCurrentQuiz(kidId: string) {
+  try {
+    let result = await CurrentQuizModel.findOne({
+      kidId: new mongoose.Types.ObjectId(kidId),
+    });
+
+    return result;
+  } catch (error) {
+    throw Error(notFound("en", ""));
+  }
+}
+export async function deleteCurrentQuiz(kidId: string) {
+  try {
+    let result = await CurrentQuizModel.deleteOne({
+      kidId: new mongoose.Types.ObjectId(kidId),
+    });
+
     return result;
   } catch (error) {
     throw Error(notFound("en", ""));
