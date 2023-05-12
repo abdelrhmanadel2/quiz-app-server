@@ -14,10 +14,10 @@ export const getFolderContenHandler = async (
   try {
     // // // make req
 
-    const file = await getFolderContent("en", req.query.bath);
+    const file = await getFolderContent("ar", req.query.bath);
     res.json({
-      status: successStatus("en"),
-      message: successStatus("en"),
+      status: successStatus("ar"),
+      message: successStatus("ar"),
       data: file,
     });
   } catch (err) {
@@ -37,11 +37,11 @@ export const uploadFolderToCloudHandler = async (
     // connectToCluster(config.dataBaseUrl);
     // // // make req
 
-    const file = await uploadMultiFilesToCloud("Quiz", "temp/Quistions", "en");
+    const file = await uploadMultiFilesToCloud("Quiz", "temp/Quistions", "ar");
 
     res.json({
-      status: successStatus("en"),
-      message: successStatus("en"),
+      status: successStatus("ar"),
+      message: successStatus("ar"),
       data: file,
     });
   } catch (err) {

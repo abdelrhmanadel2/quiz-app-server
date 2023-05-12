@@ -20,7 +20,7 @@ export async function getParentKids(userId: string) {
       userID: new mongoose.Types.ObjectId(userId),
     });
   } catch (error) {
-    throw Error(notFound("en", ""));
+    throw Error(notFound("ar", ""));
   }
 }
 export async function getKid(userId: string) {
@@ -29,6 +29,6 @@ export async function getKid(userId: string) {
       userID: new mongoose.Types.ObjectId(userId),
     });
   } catch (error) {
-    throw Error(notFound("en", ""));
+    throw Error(notFound("ar", ""));
   }
 }

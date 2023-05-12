@@ -28,8 +28,8 @@ export const createQuizResultHandler = async (
     const client = await createQuizResult(input);
     console.log("client:", client);
     res.json({
-      status: successStatus("en"),
-      message: successStatus("en"),
+      status: successStatus("ar"),
+      message: successStatus("ar"),
       data: client,
     });
   } catch (err) {
@@ -48,8 +48,8 @@ export const getAllQuizResultsHandler = async (
     // // make req
     const result = await getAllQuizResults(req.query.id);
     res.json({
-      status: successStatus("en"),
-      message: successStatus("en"),
+      status: successStatus("ar"),
+      message: successStatus("ar"),
       data: result,
     });
   } catch (err) {
@@ -68,8 +68,8 @@ export const getQuizResultHandler = async (
     // // make req
     const result = await getQuizResult(req.query.id);
     res.json({
-      status: successStatus("en"),
-      message: successStatus("en"),
+      status: successStatus("ar"),
+      message: successStatus("ar"),
       data: result,
     });
   } catch (err) {

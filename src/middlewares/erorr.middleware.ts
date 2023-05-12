@@ -15,7 +15,8 @@ function errorMiddleware(
     return res.status(400).json({ status: 400, message: err.message });
   }
   const status = err.status || 500;
-  const message = err.message || "Whoops!! something went wrong";
+  const message = err.message || "اوبس ";
+  //Whoops!! something went wrong
   // default to 500 server error
   return res.status(status).json({ status, message });
 }

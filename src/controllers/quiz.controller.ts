@@ -4,6 +4,7 @@ import {
   successStatus,
   failedStatus,
   dublication,
+  customMessage,
   notFound,
   addSuccess,
 } from "../utils/helpers/server.local";
@@ -35,8 +36,8 @@ export const createQuestionHandler = async (
     const result = await createQuestion(input);
     console.log("result:", result);
     res.json({
-      status: successStatus("en"),
-      message: successStatus("en"),
+      status: successStatus("ar"),
+      message: successStatus("ar"),
       data: result,
     });
   } catch (err) {
@@ -56,8 +57,8 @@ export const setQuestionsUrlHandler = async (
     const result = await setQuestionsUrl();
     console.log("result:", result);
     res.json({
-      status: successStatus("en"),
-      message: successStatus("en"),
+      status: successStatus("ar"),
+      message: successStatus("ar"),
       data: result,
     });
   } catch (err) {
@@ -102,8 +103,8 @@ export const createAllQuestionHandler = async (
           try {
             result = await createManyQuestion(questionList);
             res.json({
-              status: successStatus("en"),
-              message: successStatus("en"),
+              status: successStatus("ar"),
+              message: successStatus("ar"),
               data: result,
             });
           } catch (error) {
@@ -130,8 +131,8 @@ export const getAllQuestionsHandler = async (
     // // make req
     const results = await getAllQuestions();
     res.json({
-      status: successStatus("en"),
-      message: successStatus("en"),
+      status: successStatus("ar"),
+      message: successStatus("ar"),
       data: results,
     });
   } catch (err) {
@@ -153,9 +154,10 @@ export const getLevelQuestionsHandler = async (
     await connectToCluster(config.dataBaseUrl);
     // // make req
     const results = await getLevelQuestions(req.body);
+    console.log("results", results);
     res.json({
-      status: successStatus("en"),
-      message: successStatus("en"),
+      status: successStatus("ar"),
+      message: successStatus("ar"),
       data: results,
     });
   } catch (err) {
@@ -178,8 +180,8 @@ export const addCurrentQuizHandler = async (
     const result = await addCurrentQuiz(input);
     console.log("result:", result);
     res.json({
-      status: successStatus("en"),
-      message: successStatus("en"),
+      status: successStatus("ar"),
+      message: successStatus("ar"),
       data: result,
     });
   } catch (err) {
@@ -200,8 +202,8 @@ export const getCurrentQuizHandler = async (
     const result = await getCurrentQuiz(input);
     console.log("result:", result);
     res.json({
-      status: successStatus("en"),
-      message: successStatus("en"),
+      status: successStatus("ar"),
+      message: successStatus("ar"),
       data: result,
     });
   } catch (err) {
@@ -222,8 +224,8 @@ export const deleteCurrentQuizHandler = async (
     const result = await deleteCurrentQuiz(input);
     console.log("result:", result);
     res.json({
-      status: successStatus("en"),
-      message: successStatus("en"),
+      status: successStatus("ar"),
+      message: successStatus("ar"),
       data: result,
     });
   } catch (err) {

@@ -57,7 +57,7 @@ export async function uploadMultiFilesToCloud(
             let d = await bucket
               .upload(localePath, {
                 destination: uploadPath,
-                // predefinedAcl: "publicRead",
+                predefinedAcl: "publicRead",
               })
               .catch(async (err) => {
                 console.error(err);
@@ -65,7 +65,7 @@ export async function uploadMultiFilesToCloud(
 
                 d = await bucket.upload(localePath, {
                   destination: uploadPath,
-                  // predefinedAcl: "publicRead",
+                  predefinedAcl: "publicRead",
                 });
               });
             if (d) console.log("file", d[0].name);

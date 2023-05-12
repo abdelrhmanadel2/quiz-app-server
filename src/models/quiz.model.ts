@@ -5,6 +5,8 @@ export interface IQuizResult {
   mentalAge: number;
   logicCount: number;
   mathCount: number;
+  logicAnswered: number;
+  mathAnswered: number;
   correctCount?: number;
   questionsCount?: number;
 }
@@ -25,6 +27,12 @@ export const ResultSchema: Schema = new Schema({
     type: Number,
   },
   mathCount: {
+    type: Number,
+  },
+  logicAnswered: {
+    type: Number,
+  },
+  mathAnswered: {
     type: Number,
   },
   correctCount: {

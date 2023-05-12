@@ -22,7 +22,7 @@ export async function getQuizResult(id: string) {
       _id: new mongoose.Types.ObjectId(id),
     });
   } catch (error) {
-    throw Error(notFound("en", ""));
+    throw Error(notFound("ar", ""));
   }
 }
 export async function getAllQuizResults(user: string) {

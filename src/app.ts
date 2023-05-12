@@ -17,6 +17,6 @@ app.use((_req: Request, res: Response) => {
 });
 app.use(errorMiddelware);
 
-app.listen(3801, () => {
-  console.log(`Server listen to port ${3801}`);
+app.listen(4001, () => {
+  console.log(`Server listen to port ${4001}`);
 });

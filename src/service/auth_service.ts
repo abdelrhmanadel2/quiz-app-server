@@ -6,6 +6,7 @@ import {
   dublication,
   notFound,
 } from "../utils/helpers/server.local";
+import kidsModel, { IKids, IKidsDocument } from "../models/kids.model";
 
 import mongoose, { DocumentDefinition } from "mongoose";
 
@@ -31,13 +32,14 @@ export async function authenticateUser(
       // password: input.password
     });
     if (!user) {
-      throw Error("No Account With This email Try To Register Frist");
+      throw Error("لايوجد حساب مسجل على هذا الايميل قم بالتسجيل  ");
+      //No Account With This email Try To Register Frist
     }
     let isValidPassword = bcrypt.compareSync(input.password, user.password!);
     if (isValidPassword) {
       return user;
     }
-    throw Error("Wrong Password");
+    throw Error("كلمة المرور خاطئه");
   } catch (error) {
     throw error;
   }
@@ -46,6 +48,24 @@ export async function authenticateUser(
 export async function getUser(id: string, locale: string) {
   try {
     return await UserModel.findOne({ _id: new mongoose.Types.ObjectId(id) });
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function deleteUser(id: string, locale: string) {
+  try {
+     await UserModel.deleteOne({ _id: new mongoose.Types.ObjectId(id) });
+     await kidsModel.deleteMany({ UserID: new mongoose.Types.ObjectId(id) });
+
+
+  } catch (error) {
+    throw error;
+  }
+}
+export async function getAllUser(locale: string) {
+  try {
+    return await UserModel.find({ type: { $ne: "admin" } });
   } catch (error) {
     throw error;
   }

@@ -30,7 +30,7 @@ export async function createManyQuestion(input: Array<IQuestion>) {
     let question = await QuestionModel.create(input);
     return question;
   } catch (error) {
-    throw Error(dublication("en", ""));
+    throw Error(dublication("ar", ""));
   }
 }
 
@@ -40,16 +40,17 @@ export async function getQuestion(id: string) {
       _id: new mongoose.Types.ObjectId(id),
     });
   } catch (error) {
-    throw Error(notFound("en", ""));
+    throw Error(notFound("ar", ""));
   }
 }
 export async function getAllQuestions() {
   try {
     return await QuestionModel.find({});
   } catch (error) {
-    throw Error(notFound("en", ""));
+    throw Error(notFound("ar", ""));
   }
 }
+
 export async function getLevelQuestions(input: {
   category: string;
   level: number;
@@ -63,13 +64,27 @@ export async function getLevelQuestions(input: {
   let percentage = input.percentage;
   let mathSize = input.count * percentage;
   let logicSize = input.count * (1 - percentage);
+  let mathFilter;
+  if (level != null && input.category != null)
+    mathFilter = {
+      level: level,
+      category: input.category,
+      tag: "Math",
+    };
+  let logicFilter;
+  if (level != null && input.category != null)
+    logicFilter = {
+      level: level,
+      category: input.category,
+      tag: "Logic",
+    };
   try {
     mathResult = await QuestionModel.aggregate([
-      { $match: { level: level, category: input.category, tag: "Math" } },
+      { $match: mathFilter ?? { tag: "Math" } },
       { $sample: { size: mathSize } },
     ]);
     logicResult = await QuestionModel.aggregate([
-      { $match: { level: level, category: input.category, tag: "Logic" } },
+      { $match: logicFilter ?? { tag: "Logic" } },
       { $sample: { size: logicSize } },
     ]);
     let result = [...logicResult, ...mathResult].sort(
@@ -77,7 +92,9 @@ export async function getLevelQuestions(input: {
     );
     console.log("mathSize ", mathSize);
     console.log("logicSize ", logicSize);
-    console.log("result ", result.length);
+    console.log("result length", result.length);
+    console.log("result", result);
+
     for await (const element of result) {
       // console.log(element.folderPath);
       let imgs = await getFolderContent("en", element.folderPath);
@@ -93,18 +110,21 @@ export async function getLevelQuestions(input: {
         // console.log(element.options);
       }
     }
+    console.log("result", result);
+
     return result;
   } catch (error) {
     throw Error(notFound("en", ""));
   }
 }
+
 export async function setQuestionsUrl() {
   try {
     let result = await QuestionModel.find({});
 
     for await (const element of result) {
       // console.log(element.folderPath);
-      let imgs = await getFolderContent("en", element.folderPath);
+      let imgs = await getFolderContent("ar", element.folderPath);
       if (imgs) {
         let question = imgs.filter((e) =>
           e.name?.toLowerCase()?.includes("quiz")
@@ -125,7 +145,7 @@ export async function setQuestionsUrl() {
     }
     return result;
   } catch (error) {
-    throw Error(notFound("en", ""));
+    throw Error(notFound("ar", ""));
   }
 }
 export async function addCurrentQuiz(
@@ -144,7 +164,7 @@ export async function addCurrentQuiz(
 
     return result;
   } catch (error) {
-    throw Error(notFound("en", ""));
+    throw Error(notFound("ar", ""));
   }
 }
 export async function getCurrentQuiz(kidId: string) {
@@ -155,7 +175,7 @@ export async function getCurrentQuiz(kidId: string) {
 
     return result;
   } catch (error) {
-    throw Error(notFound("en", ""));
+    throw Error(notFound("ar", ""));
   }
 }
 export async function deleteCurrentQuiz(kidId: string) {
@@ -166,6 +186,6 @@ export async function deleteCurrentQuiz(kidId: string) {
 
     return result;
   } catch (error) {
-    throw Error(notFound("en", ""));
+    throw Error(notFound("ar", ""));
   }
 }
