@@ -8,7 +8,7 @@ const routes = Router();
 
 routes.get("/getFolderContent", archiveController.getFolderContenHandler);
 routes.get("/setQuestionsUrls", quizController.setQuestionsUrlHandler);
-    routes.post(
+routes.post(
   "/createAllQuestionHandler",
   quizController.createAllQuestionHandler
 );
@@ -28,6 +28,10 @@ routes.get("/getQuizResult", resultsController.getQuizResultHandler);
 routes.post("/addQuizResult", resultsController.createQuizResultHandler);
 routes.post("/addCurrentQuiz", quizController.addCurrentQuizHandler);
 routes.get("/getCurrentQuiz", quizController.getCurrentQuizHandler);
-routes.get("/getAllUsers", authController.getAllUsersHandler );
+routes.get("/getAllUsers", authController.getAllUsersHandler);
 routes.get("/deleteCurrentQuiz", quizController.deleteCurrentQuizHandler);
+
+// added
+routes.put("/updateUserName", authController.updateUserNameHandler);
+
 export default routes;

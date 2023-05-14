@@ -15,8 +15,11 @@ import bcrypt from "bcryptjs";
 
 import {
   userRegister,
-  getUser,deleteUser,
-  authenticateUser,getAllUser,
+  getUser,
+  deleteUser,
+  authenticateUser,
+  getAllUser,
+  updateUserName,
 } from "../service/auth_service";
 import { IKids } from "../models/kids.model";
 export const userRegisterInfoHandler = async (
@@ -145,7 +148,7 @@ export const deleteParentKidsHandler = async (
     // add validation here
     connectToCluster(config.dataBaseUrl);
     // // make req
-    let kids = await deleteUser(req.query.id,"ar");
+    let kids = await deleteUser(req.query.id, "ar");
     res.json({
       status: successStatus("ar"),
       data: kids,
@@ -155,6 +158,7 @@ export const deleteParentKidsHandler = async (
     next(err);
   }
 };
+
 export const parentAddKidHandler = async (
   req: Request,
   res: Response,
@@ -199,6 +203,26 @@ export const getAllUsersHandler = async (
       status: successStatus("en"),
       // message: "user deleted successfully",
       data: usersInfo,
+    });
+  } catch (err) {
+    // mongoose.connection.close();
+    next(err);
+  }
+};
+// added
+export const updateUserNameHandler = async (
+  req: Request<{}, {}, {}, { id: string; name: string }>,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    // add validation here
+    connectToCluster(config.dataBaseUrl);
+    // // make req
+    let kids = await updateUserName(req.query.id, req.query.name, "ar");
+    res.json({
+      status: successStatus("ar"),
+      data: kids,
     });
   } catch (err) {
     // mongoose.connection.close();

@@ -55,17 +55,46 @@ export async function getUser(id: string, locale: string) {
 
 export async function deleteUser(id: string, locale: string) {
   try {
-     await UserModel.deleteOne({ _id: new mongoose.Types.ObjectId(id) });
-     await kidsModel.deleteMany({ UserID: new mongoose.Types.ObjectId(id) });
-
-
+    await UserModel.deleteOne({ _id: new mongoose.Types.ObjectId(id) });
+    await kidsModel.deleteMany({ UserID: new mongoose.Types.ObjectId(id) });
   } catch (error) {
     throw error;
   }
 }
+
 export async function getAllUser(locale: string) {
   try {
     return await UserModel.find({ type: { $ne: "admin" } });
+  } catch (error) {
+    throw error;
+  }
+}
+// added
+export async function updateUserName(id: string, name: string, locale: string) {
+  try {
+    let user = await UserModel.findOneAndUpdate(
+      { _id: new mongoose.Types.ObjectId(id) },
+      {
+        $set: {
+          name: name,
+        },
+      },
+      { new: true }
+    );
+    if (user != null) {
+      user.type == "kids";
+      await kidsModel.findOneAndUpdate(
+        {
+          UserID: new mongoose.Types.ObjectId(id),
+        },
+        {
+          $set: {
+            name: name,
+          },
+        }
+      );
+      return user;
+    }
   } catch (error) {
     throw error;
   }
